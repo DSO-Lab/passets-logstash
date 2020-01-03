@@ -1,6 +1,6 @@
 # 简介
 
-本插件用于在Logstash接收流量数据的过程中对URL进行处理，提取 scheme、host、path和query信息。
+本插件用于在Logstash接收流量数据的过程中对 URL 进行拆分，提取站点、路径，生成 URL 模板。便于后续数据分析过程中的 数据聚类操作。
 
 INPUT -> `FILTER(URL Filter)` -> OUTPUT
 
@@ -17,19 +17,17 @@ $ tree logstash-filter-url
 
 # 环境要求
 
-无
+- Logstash 7.x
 
 # 插件安装（手工）
 
 ```
-# 1. 创建gem包目录
-mkdir /usr/share/logstash/vendor/bundle/jruby/2.5.0/gems/logstash-filter-url-1.0.0
+# 1. 将 logstash-filter-url 目录拷贝到 /usr/share/logstash/vendor/bundle/jruby/2.5.0/gems 目录下
+cp -R ./ /usr/share/logstash/vendor/bundle/jruby/2.5.0/gems/
 
-# 2. 将 logstash-filter-url 目录下的所有文件拷贝到这个目录下
-
-# 3. 修改根Gemfile文件
+# 2. 修改 Logstash 根目录下的 Gemfile 文件
 vi /usr/share/logstash/Gemfile
-gem "logstash-filter-url", :path => "vendor/bundle/jruby/2.5.0/gems/logstash-filter-url-1.0.0"
+gem "logstash-filter-url", :path => "vendor/bundle/jruby/2.5.0/gems/logstash-filter-url"
 ```
 
 # 基本配置
@@ -43,8 +41,10 @@ filter {
     ...
     if [protocol] == 'HTTP-Response' {
         url {
-            source => "http_uri"
-            target => "url"
+            source => "url"
+            url_tpl_name => "url_tpl"
+            path_name => "path"
+            site_name  => "site"
         }
     }
 }
@@ -56,10 +56,12 @@ output {
 
 所有可配置参数列表：
 
-| 参数名 | 类型 | 必填项 | 默认值 | 说明 |
-|--------|------|--------|--------|------|
-| source | string | 是 | http_uri | 获取URL的字段名 |
-| target | string | 是 | url | 回填数据的字段名 |
+| 参数名       | 类型   | 必填 | 默认值  | 参数说明
+|--------------|--------|------|---------|--------------------------|
+| source       | string | 否   | url     | 指定获得URL的字段名
+| url_tpl_name | string | 否   | url_tpl | 指定输出 URL 模板的字段名
+| path_name    | string | 否   | path    | 指定输出 URL 路径部分的字段名
+| site_name    | string | 否   | site    | 指定输出 URL 站点部分的字段名
 
 # 参考资料
 

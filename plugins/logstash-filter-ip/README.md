@@ -17,19 +17,17 @@ $ tree logstash-filter-ip
 
 # 环境要求
 
-无
+- Logstash 7.x
 
 # 插件安装（手工）
 
 ```
-# 1. 创建gem包目录
-mkdir /usr/share/logstash/vendor/bundle/jruby/2.5.0/gems/logstash-filter-ip-1.0.0
+# 1. 将 logstash-filter-ip 目录拷贝到 /usr/share/logstash/vendor/bundle/jruby/2.5.0/gems 目录下:
+cp -R ./ /usr/share/logstash/vendor/bundle/jruby/2.5.0/gems/logstash-filter-ip/
 
-# 2. 将 logstash-filter-ip 目录下的所有文件拷贝到这个目录下
-
-# 3. 修改根Gemfile文件
+# 3. 修改 logstash 根目录下的 Gemfile 文件，添加如下行：
 vi /usr/share/logstash/Gemfile
-gem "logstash-filter-ip", :path => "vendor/bundle/jruby/2.5.0/gems/logstash-filter-ip-1.0.0"
+gem "logstash-filter-ip", :path => "vendor/bundle/jruby/2.5.0/gems/logstash-filter-ip"
 ```
 
 # 基本配置
@@ -42,14 +40,9 @@ input {
 filter {
     ...
     ip {
-        format_num => {
-            "src_addr" => "src_num"
-            "dst_addr" => "dst_num"
-        }
-        judge_network => {
-            "src_addr" => "src_inner"
-            "dst_addr" => "dst_inner"
-        }
+        source => 'ip'
+        ip_num_name => 'ip_num'
+        inner_name => 'inner'
     }
 }
 
@@ -60,10 +53,11 @@ output {
 
 所有可配置参数列表：
 
-| 参数名 | 类型 | 必填项 | 默认值 | 说明 |
-|--------|------|--------|--------|------|
-| format_num | hash | 是 | 无 | 格式：{ 输入字段 => 输出字段 } |
-| judge_network | hash | 是 | 无 | 格式：{ 输入字段 => 输出字段 } |
+| 参数名      | 类型   | 必填 | 默认值 | 参数说明
+|-------------|--------|------|--------|---------------------------------|
+| source      | string | 是   | ip     | 指定IP地址在消息中的参数名
+| ip_num_name | string | 是   | ip_num | 指定输出的IP数值存储的字段名
+| inner_name  | string | 是   | inner  | 指定输入的用于区分内外部IP的字段名，若IP为内部IP，则输入值为 true，否则为 false
 
 # 参考资料
 
