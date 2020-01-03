@@ -1,0 +1,27 @@
+:plugin: ip
+:type: filter
+
+///////////////////////////////////////////
+START - GENERATED VARIABLES, DO NOT EDIT!
+///////////////////////////////////////////
+:version: %VERSION%
+:release_date: %RELEASE_DATE%
+:changelog_url: %CHANGELOG_URL%
+:include_path: ../../../../logstash/docs/include
+///////////////////////////////////////////
+END - GENERATED VARIABLES, DO NOT EDIT!
+///////////////////////////////////////////
+
+[id="plugins-{type}s-{plugin}"]
+
+=== IP filter plugin
+
+include::{include_path}/plugin_header.asciidoc[]
+
+==== Description
+
+The IP filter adds information about intranet IP or internet IP,
+based on RFC standard.
+
+==== Details
+

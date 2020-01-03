@@ -1,0 +1,26 @@
+:plugin: url
+:type: filter
+
+///////////////////////////////////////////
+START - GENERATED VARIABLES, DO NOT EDIT!
+///////////////////////////////////////////
+:version: %VERSION%
+:release_date: %RELEASE_DATE%
+:changelog_url: %CHANGELOG_URL%
+:include_path: ../../../../logstash/docs/include
+///////////////////////////////////////////
+END - GENERATED VARIABLES, DO NOT EDIT!
+///////////////////////////////////////////
+
+[id="plugins-{type}s-{plugin}"]
+
+=== URL filter plugin
+
+include::{include_path}/plugin_header.asciidoc[]
+
+==== Description
+
+The URL filter Add host, path, scheme, parameters about a website url.
+
+==== Details
+

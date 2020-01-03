@@ -1,0 +1,5 @@
+Star Observatory
+Copyright 2016-2019 Star Observatory
+
+This product includes software developed by The Apache Software
+Foundation (http://www.apache.org/).
