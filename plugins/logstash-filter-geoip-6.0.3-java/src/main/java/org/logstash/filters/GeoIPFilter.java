@@ -228,7 +228,32 @@ public class GeoIPFilter {
         case COUNTRY_NAME:
           String countryName = country.getNames().get(this.locale);
           if (countryName != null) {
-            geoData.put(Fields.COUNTRY_NAME.fieldName(), countryName);
+            countryName = countryName.trim();
+            if (this.locale.equals("zh-CN")) {
+              if (countryName.equals("中华民国") || countryName.equals("台湾")) {
+                geoData.put(Fields.COUNTRY_NAME.fieldName(), "中国");
+              } else if (countryName.equals("香港") || countryName.equals("中国香港")) {
+                geoData.put(Fields.COUNTRY_NAME.fieldName(), "中国");
+                geoData.put(Fields.CITY_NAME.fieldName(), "香港");
+              } else if (countryName.equals("澳门") || countryName.equals("中国澳门")) {
+                geoData.put(Fields.COUNTRY_NAME.fieldName(), "中国");
+                geoData.put(Fields.CITY_NAME.fieldName(), "澳门");
+              } else {
+                geoData.put(Fields.COUNTRY_NAME.fieldName(), countryName);
+              }
+            } else {
+              if (countryName.equals("Taiwan")) {
+                geoData.put(Fields.COUNTRY_NAME.fieldName(), "China");
+              } else if (countryName.equals("Hong Kong")) {
+                geoData.put(Fields.COUNTRY_NAME.fieldName(), "China");
+                geoData.put(Fields.CITY_NAME.fieldName(), "Hong Kong");
+              } else if (countryName.equals("Macau")) {
+                geoData.put(Fields.COUNTRY_NAME.fieldName(), "China");
+                geoData.put(Fields.CITY_NAME.fieldName(), "Macau");
+              } else {
+                geoData.put(Fields.COUNTRY_NAME.fieldName(), countryName);
+              }
+            }
           }
           break;
         case COUNTRY_CODE2:
@@ -322,13 +347,13 @@ public class GeoIPFilter {
           }
           break;
         case COUNTRY_NAME:
-          String countryName = country.getName();
+          String countryName = country.getNames().get(this.locale);
           if (countryName != null) {
             geoData.put(Fields.COUNTRY_NAME.fieldName(), countryName);
           }
           break;
         case CONTINENT_NAME:
-          String continentName = continent.getName();
+          String continentName = continent.getNames().get(this.locale);
           if (continentName != null) {
             geoData.put(Fields.CONTINENT_NAME.fieldName(), continentName);
           }
