@@ -1,32 +1,29 @@
 {
-    "order": 1,
-    "passets": {
-        "index_patterns": "logstash-passets*",
-        "settings": { "index.refresh_interval": "5s", "number_of_shards": 1, "auto_expand_replicas": "0-1" },
-        "mappings": {
-            "dynamic_templates": [
-                {
-                    "string_fields": {
-                        "match": "*",
-                        "match_mapping_type": "string", 
-                        "mapping": {
-                            "type": "text",
-                            "norms": false,
-                            "fields": {
-                                "keyword": { "type": "keyword", "ignore_above": 256 }
-                            }
+    "index_patterns": "logstash-passets*",
+    "settings": { "refresh_interval": "5s", "number_of_shards": 1, "auto_expand_replicas": "0-1" },
+    "mappings": {
+        "dynamic_templates": [
+            {
+                "string_fields": {
+                    "match": "*",
+                    "match_mapping_type": "string", 
+                    "mapping": {
+                        "type": "text",
+                        "norms": false,
+                        "fields": {
+                            "keyword": { "type": "keyword", "ignore_above": 256 }
                         }
                     }
                 }
-            ],
-            "properties": {
-                "@timestamp": { "type": "date"},
-                "@version": {"type": "keyword"},
-                "geoip": {
-                    "dynamic": true,
-                    "properties": {
-                        "location": {"type": "geo_point"}
-                    }
+            }
+        ],
+        "properties": {
+            "@timestamp": { "type": "date"},
+            "@version": {"type": "keyword"},
+            "geoip": {
+                "dynamic": true,
+                "properties": {
+                    "location": {"type": "geo_point"}
                 }
             }
         }
