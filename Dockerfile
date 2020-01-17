@@ -1,4 +1,4 @@
-FROM logstash:7.4.1
+FROM logstash:7.5.1
 
 LABEL maintainer="tanjelly@gmail.com" version="1.0.0"
 
