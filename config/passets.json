@@ -25,6 +25,15 @@
                 "properties": {
                     "location": {"type": "geo_point"}
                 }
+            },
+            "port": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "ignore_above": 256,
+                        "type": "keyword"
+                    }
+                }
             }
         }
     }

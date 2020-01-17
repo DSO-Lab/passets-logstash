@@ -67,6 +67,7 @@ config                   # Logstash 配置文件目录
   logstash.yml           # Logstash 运行配置
   logstash.conf          # Logstash 数据处理配置
   log4j2.properties      # Logstash 日志记录配置
+  passets.json           # 资产数据在ES上的索引模板
   GeoLite2-City.tar.gz   # IP 定位数据库
 plugins
   logstash-filter-geoip-6.0.3-java # IP 归属地、经纬度识别插件目录
