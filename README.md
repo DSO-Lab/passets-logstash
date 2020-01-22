@@ -26,7 +26,7 @@ docker build -f Dockerfile_armv7 -t dsolab/passets-logstash:<tag>_armv7 .
 
 ### 启动命令
 ```
-docker run -it --rm -e ELASTICSEARCH_URL=x.x.x.x:9200 -p 5044:5044/udp dsolab/passets-logstash:<tag>
+docker run -it --rm -e ELASTICSEARCH_URL=x.x.x.x:9200 -p 5044:5044/tcp dsolab/passets-logstash:<tag>
 ```
 
 ###  使用 docker-compose 启动
@@ -44,7 +44,7 @@ services:
       - TZ=Asia/Shanghai
       - ELASTICSEARCH_URL=http://<elasticsearch-host>:9200/  # ES地址
     ports:
-      - "5044:5044/udp"
+      - "5044:5044/tcp"
 ```
 
 构建:
