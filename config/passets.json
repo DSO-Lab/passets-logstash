@@ -1,17 +1,32 @@
 {
     "index_patterns": "logstash-passets*",
-    "settings": { "refresh_interval": "5s", "number_of_shards": 1, "auto_expand_replicas": "0-1" },
+    "settings": {
+    	"refresh_interval": "5s",
+    	"number_of_shards": 1,
+    	"auto_expand_replicas": "0-1",
+    	"analysis": {
+			"analyzer": {
+				"default": { "type": "standard" }
+			},
+			"normalizer": {
+				"lowercase": {
+					"type": "custom",
+					"filter": [ "lowercase" ]
+				}
+			}
+		}
+    },
     "mappings": {
         "dynamic_templates": [
             {
                 "string_fields": {
                     "match": "*",
-                    "match_mapping_type": "string", 
+                    "match_mapping_type": "string",
                     "mapping": {
                         "type": "text",
                         "norms": false,
                         "fields": {
-                            "keyword": { "type": "keyword", "ignore_above": 256 }
+                            "keyword": { "type": "keyword", "ignore_above": 256, "normalizer": "lowercase" }
                         }
                     }
                 }
