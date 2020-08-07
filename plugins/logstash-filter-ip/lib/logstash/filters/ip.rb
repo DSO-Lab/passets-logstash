@@ -50,11 +50,11 @@ class LogStash::Filters::Ip < LogStash::Filters::Base
     @inner_ip_list.each_index do |index|
       inner_ip_range = @inner_ip_list[index].split('-')
       if inner_ip_range.size == 2
-        inner_start = ip_to_number(inner_ip_range[0])
-        inner_end = ip_to_number(inner_ip_range[1])
+        inner_start, tmp_start = ip_convert(inner_ip_range[0])
+        inner_end, tmp_start = ip_convert(inner_ip_range[1])
         @inner_ip_list[index] = [inner_start, inner_end]
       else
-        inner_ip = ip_to_number(inner_ip_range[0])
+        inner_ip, tmp_ip = ip_convert(inner_ip_range[0])
         @inner_ip_list[index] = [inner_ip, inner_ip]
       end
     end
@@ -112,7 +112,9 @@ class LogStash::Filters::Ip < LogStash::Filters::Base
   def filter_ex(ip)
     begin
       result = {}
-      result[@inner_name] = is_inner_ip(ip_to_number(ip))
+      ip_num, ip_str = ip_convert(ip)
+      result[@inner_name] = is_inner_ip(ip_num)
+      result["#{@source}_str"] = ip_str
 
       return result
     rescue => e
@@ -134,13 +136,13 @@ class LogStash::Filters::Ip < LogStash::Filters::Base
   end
 
   private
-  def ip_to_number(ip)
+  def ip_convert(ip)
     begin
-      ip_num = IPAddr.new ip
-      return ip_num.to_i
+      ip_obj = IPAddr.new ip
+      return [ip_obj.to_i, ip_obj.to_s]
     rescue => e
       puts("IP address parse failed. IP: #{ip}, Message: #{e.message}")
-      return -1
+      return [-1, ip]
     end
   end
 
