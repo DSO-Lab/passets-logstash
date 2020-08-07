@@ -14,10 +14,6 @@ class LogStash::Filters::Ip < LogStash::Filters::Base
   # source => 'ip'
   config :source, :validate => :string, :default => 'ip'
 
-  # IP 数值输出字段名
-  # ip_num_name => 'ip_num'
-  config :ip_num_name, :validate => :string, :default => 'ip_num'
-
   # 内网IP标识输出字段名
   # inner_name => 'inner'
   config :inner_name, :validate => :string, :default => 'inner'
@@ -116,8 +112,7 @@ class LogStash::Filters::Ip < LogStash::Filters::Base
   def filter_ex(ip)
     begin
       result = {}
-      result[@ip_num_name] = ip_to_number(ip)
-      result[@inner_name] = is_inner_ip(result[@ip_num_name])
+      result[@inner_name] = is_inner_ip(ip_to_number(ip))
 
       return result
     rescue => e

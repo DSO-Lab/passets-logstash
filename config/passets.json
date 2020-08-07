@@ -41,6 +41,9 @@
                 "properties": {
                     "location": {"type": "geo_point"}
                 }
+            },
+            "ip": {
+                "type": "ip"
             }
         }
     }
