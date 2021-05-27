@@ -16,6 +16,7 @@ VOLUME /usr/share/logstash/logs /usr/share/logstash/data
 RUN rm -f config/logstash-sample.conf && \
     sed -i '/gem "logstash-filter-xml"/i gem "logstash-filter-ip", :path => "vendor/bundle/jruby/2.5.0/gems/logstash-filter-ip"' Gemfile && \
     sed -i '/gem "logstash-filter-xml"/i gem "logstash-filter-url", :path => "vendor/bundle/jruby/2.5.0/gems/logstash-filter-url"' Gemfile && \
+    sed -i '/gem "logstash-filter-xml"/i gem "logstash-filter-ipip", :path => "vendor/bundle/jruby/2.5.0/gems/logstash-filter-ipip"' Gemfile && \
     cd config/ && \
     tar -C ./ --strip-components=1 -zxf GeoLite2-City.tar.gz && rm -f GeoLite2-City.tar.gz && \
     cd ../vendor/bundle/jruby/2.5.0/gems/logstash-filter-geoip-6.0.3-java/ && \

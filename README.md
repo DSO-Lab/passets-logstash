@@ -70,11 +70,13 @@ config                   # Logstash 配置文件目录
   passets.json           # 资产数据在ES上的索引模板
   GeoLite2-City.tar.gz   # IP 定位数据库
 plugins
-  logstash-filter-geoip-6.0.3-java # IP 归属地、经纬度识别插件目录
+  logstash-filter-geoip-6.0.3-java # MaxMind 版本 IP 归属地、经纬度识别插件目录
     ...
   logstash-filter-ip               # IP 转换、内网识别插件目录
     ...
   logstash-filter-url              # URL 拆分插件目录
+    ...
+  logstash-filter-ipip             # IPIP版本IP归属地、经纬度识别插件目录
     ...
 ```
 
@@ -92,11 +94,19 @@ plugins
 
 提取URL中的站点、路径和参数模板信息。
 
+- [ipip](plugins/logstash-filter-geoip-ipip/README.md)
+
+IPIP官方提供的 ipip 插件，用于解析指定IP的归属地信息（国家、城市、经纬度），不可与 geoip 同时使用。
+
 ## FAQ
 
-> 如何更新 IP 定位数据库？
+> 如何更新 GeoIP 定位数据库？
 
 Passets 使用了 GEO2IP 的城市数据库（GeoLite2-City），由于该数据库已经不提供公开下载，你需要免费[注册一个 MaxMind 帐号](https://www.maxmind.com/en/geolite2/signup)，登录成功之后即可下载。
 
 将下载的 GeoLite2-City_yyyyMMdd.tar.gz(yyyyMMdd为年月日)文件重命名为 GeoLite2-City.tar.gz，放到 [config](./config/) 目录下，然后重新构建容器镜像即可。
+
+> IPIP 地址库获取及导入
+
+Passets 未内置 IPIP 官方的地址库，使用者可以从 [IPIP官网](https://www.ipip.net/) 下载最新版本的数据库，然后通过将库文件 （名为 mydata4vipday2_cn.ipdb ）映射为 `/usr/share/logstash/config/mydata4vipday2_cn.ipdb` 来导入数据库。导入成功后即可识别IP归属地信息。
 

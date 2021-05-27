@@ -64,7 +64,7 @@ class LogStash::Filters::Url < LogStash::Filters::Base
     default = '{}'
 
     begin
-      uri = URI.parse(url)
+      uri = URI.parse(URI.escape(url))
 
       query = ''
       form = nil

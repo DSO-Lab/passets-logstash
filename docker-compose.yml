@@ -5,6 +5,8 @@ services:
     build: .
     image: dsolab/passets-logstash:1.0.0
     container_name: passets-logstash
+    volumns:
+      - ./mydata4vipday2_cn.ipdb:/usr/share/logstash/config/mydata4vipday2_cn.ipdb
     environment:
       - TZ=Asia/Shanghai
       - ELASTICSEARCH_URL=<elasticsearch-host>:9200
