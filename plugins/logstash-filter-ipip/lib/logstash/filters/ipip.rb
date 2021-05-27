@@ -77,7 +77,7 @@ class Reader
     size = @body[resolved..resolved+1].unpack('n')[0]
 
     temp = @body[resolved+2..resolved+1+size]
-    loc = temp.encode("UTF-8", "UTF-8").split("\t", @meta['fields'].length * @meta['languages'].length)
+    loc = temp.split("\t", @meta['fields'].length * @meta['languages'].length)
 
     off = @meta['languages'][lang]
 
